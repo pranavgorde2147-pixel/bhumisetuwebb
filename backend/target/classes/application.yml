@@ -1,0 +1,112 @@
+spring:
+  application:
+    name: bhumisetu-backend
+
+  profiles:
+    active: development
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+---
+# Development profile
+spring:
+  config:
+    activate:
+      on-profile: development
+
+  datasource:
+    url: jdbc:h2:mem:bhumisetu;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+app:
+  jwt:
+    secret: ZGV2LWp3dC1zZWNyZXQta2V5LWZvci1kZXZlbG9wbWVudC1vbmx5LWNoYW5nZS1pbi1wcm9kdWN0aW9u
+    expiration-ms: 86400000
+
+  cors:
+    allowed-origins: http://localhost:3000,http://localhost:5173
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
+
+  storage:
+    documents-path: /tmp/bhumisetu/documents
+    maps-cache-path: /tmp/bhumisetu/maps-cache
+
+  openapi:
+    title: BHUMISETU API - Development
+    description: Land Records Platform API
+    version: 1.0.0-dev
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: production
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bhumisetu
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:bhumisetu}
+    password: ${DB_PASSWORD:}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+  cors:
+    allowed-origins: ${CORS_ORIGINS:https://bhumisetu.gov.in}
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
+
+  storage:
+    documents-path: ${DOCUMENTS_PATH:/var/lib/bhumisetu/documents}
+    maps-cache-path: ${MAPS_CACHE_PATH:/var/lib/bhumisetu/maps-cache}
+
+  openapi:
+    title: BHUMISETU API
+    description: Land Records Platform API
+    version: 1.0.0
+
+logging:
+  level:
+    com.bhumisetu: INFO
+    org.springframework.security: WARN

@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+app:
+  jwt:
+    secret: dGVzdC1qd3Qtc2VjcmV0LWtleS1mb3ItdGVzdGluZy1vbmx5LWNoYW5nZS1pbi1wcm9kdWN0aW9u
+    expiration-ms: 86400000
+  cors:
+    allowed-origins: http://localhost:3000
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
+  storage:
+    documents-path: /tmp/bhumisetu/test-documents
+    maps-cache-path: /tmp/bhumisetu/test-maps-cache
+  openapi:
+    title: BHUMISETU API - Test
+    description: Land Records Platform API
+    version: 1.0.0-test

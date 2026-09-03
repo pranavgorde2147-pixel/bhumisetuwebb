@@ -1,0 +1,9 @@
+CREATE TABLE citizens (
+    id BIGSERIAL PRIMARY KEY,
+    mobile_number VARCHAR(15) UNIQUE NOT NULL,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    preferred_language VARCHAR(10) DEFAULT 'en',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
